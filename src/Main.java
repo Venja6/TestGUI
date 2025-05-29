@@ -26,6 +26,9 @@ class ImagePanel extends JPanel {
 
 class GUI {
     private Moneda moneda = null;
+    private Producto producto = new Sprite(1);
+    Comprador comprador = null;
+    Expendedor expendedor = new Expendedor(100);
 
     public GUI() {
         JFrame frame = new JFrame();
@@ -82,8 +85,10 @@ class GUI {
             }
             botones.get(0).setText("Sprite");
             botones.get(0).addActionListener(ev -> {
-                if(moneda.getValor() >= 500){
-                    System.out.println("Sprite");
+                if(moneda.getValor() >= 200){ //REVISAR COMO CAMBIAR A LOS DATOS DE ENUMERACION
+                    comprador = new Comprador(moneda, 2, expendedor);
+                    System.out.println(comprador.queConsumiste());
+                    System.out.println(comprador.cuantoVuelto());
                 }
             });
 
@@ -112,7 +117,6 @@ class GUI {
             botones.get(5).setText("Cancelar");
             botones.get(5).addActionListener(ev -> {
                 dialog.dispose();
-                System.out.println("Cancelar");
             });
 
             ventana.add(gridPanel, BorderLayout.CENTER);
