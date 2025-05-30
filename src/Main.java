@@ -25,7 +25,7 @@ class ImagePanel extends JPanel {
 }
 
 class GUI {
-    private int sueldo = 1000;
+    private int sueldo = 2000;
     private Moneda moneda = null;
     private Producto producto = new Sprite(1);
     Comprador comprador = null;
@@ -49,6 +49,7 @@ class GUI {
         JButton boton100 = new JButton(icon100);
         JButton boton500 = new JButton(icon500);
         JButton boton1000 = new JButton(icon1000);
+        JButton boton0 = new JButton("Cancelar");
         JButton botonNum = new JButton();
         JButton botonVue = new JButton();
         JLabel SueldoActual = new JLabel("Sueldo: " + sueldo);
@@ -81,6 +82,7 @@ class GUI {
         panelMoneda.add(boton100);
         panelMoneda.add(boton500);
         panelMoneda.add(boton1000);
+        panelMoneda.add(boton0);
 
 
         botonNum.addActionListener(e -> {
@@ -208,6 +210,15 @@ class GUI {
                 moneda = new Moneda1000();
                 sueldo -= 1000;
                 SueldoActual.setText("Sueldo: " + sueldo);
+            }
+        });
+
+        boton0.addActionListener(e -> {
+            if (moneda != null) {
+                sueldo += moneda.getValor();
+                SueldoActual.setText("Sueldo: " + sueldo);
+                moneda = null;
+                persona.setIcon(iconPersona1);
             }
         });
 
