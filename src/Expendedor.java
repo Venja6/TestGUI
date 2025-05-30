@@ -33,7 +33,11 @@ class Expendedor {
         monVu = new Deposito<>();
 
         for(int i = 0; i < cantidadProducto; i++){
+            coca.addElemento(new CocaCola(100+i));
             sprite.addElemento(new Sprite(200+i));
+            fanta.addElemento(new Fanta(300+i));
+            snickers.addElemento(new Snickers(400+i));
+            super8.addElemento(new Super8(500+i));
         }
     }
 
@@ -45,7 +49,17 @@ class Expendedor {
      * @return El producto comprado.
      */
     public Producto comprarProducto(Moneda m, int cual){
+        if(m == null){
+        }
+
+        if(cual < 1 || cual > EnumeracionPrecios.values().length){
+        }
+
         this.precioProducto = EnumeracionPrecios.values()[cual - 1].getPrecio();
+
+        if (m.getValor() < precioProducto){
+            monVu.addElemento(m);
+        }
 
         Deposito<?> deposito;
         deposito = switch (cual) {
@@ -54,13 +68,10 @@ class Expendedor {
             case FANTA -> fanta;
             case SNICKERS -> snickers;
             case SUPER8 -> super8;
-            default ->  null;
+            default -> null;
         };
 
         Producto temp = (Producto) deposito.getElemento();
-        if(temp == null){
-            monVu.addElemento(m);
-        }
 
         int vuelto = m.getValor() - precioProducto;
         for(int i = 0; i < vuelto / 100; i++){

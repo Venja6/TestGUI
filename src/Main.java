@@ -25,10 +25,12 @@ class ImagePanel extends JPanel {
 }
 
 class GUI {
+    private int sueldo = 1000;
     private Moneda moneda = null;
     private Producto producto = new Sprite(1);
     Comprador comprador = null;
     Expendedor expendedor = new Expendedor(100);
+    private int vuelto = 0;
 
     public GUI() {
         JFrame frame = new JFrame();
@@ -47,15 +49,33 @@ class GUI {
         JButton boton100 = new JButton(icon100);
         JButton boton500 = new JButton(icon500);
         JButton boton1000 = new JButton(icon1000);
-        JButton buttonNum = new JButton();
-        buttonNum.setContentAreaFilled(false);
-        buttonNum.setBorderPainted(false);
-        buttonNum.setFocusPainted(false);
-        buttonNum.setOpaque(false);
+        JButton botonNum = new JButton();
+        JButton botonVue = new JButton();
+        JLabel SueldoActual = new JLabel("Sueldo: " + sueldo);
+
+        JLabel persona = new JLabel();
+        persona.setOpaque(false);
+        persona.setIcon(iconPersona1);
+        persona.setBounds(250, 263, 150, 400);
+        persona.setVisible(true);
+        panel.add(persona);
+
+        //Botones invisibles
+       /* botonNum.setContentAreaFilled(false);
+        botonNum.setBorderPainted(false);
+        botonNum.setFocusPainted(false);
+        botonNum.setOpaque(false);*/
+        botonNum.setText("Num");
+        botonVue.setText("Vuelto");
+        /*
+        botonVue.setContentAreaFilled(false);
+        botonVue.setBorderPainted(false);
+        botonVue.setFocusPainted(false);
+        botonVue.setOpaque(false);*/
 
         JPanel panelMoneda = new JPanel(new GridLayout(2, 2));
 
-        panelMoneda.setBounds(10, 10, 200, 200);
+        panelMoneda.setBounds(10, 60, 200, 200);
 
         panel.add(panelMoneda);
         panelMoneda.add(boton100);
@@ -63,7 +83,7 @@ class GUI {
         panelMoneda.add(boton1000);
 
 
-        buttonNum.addActionListener(e -> {
+        botonNum.addActionListener(e -> {
             JDialog dialog = new JDialog();
             dialog.setModal(true);
             dialog.setUndecorated(true);
@@ -83,35 +103,64 @@ class GUI {
                 botones.add(btn);
                 gridPanel.add(btn);
             }
-            botones.get(0).setText("Sprite");
+            botones.get(0).setText("Coca");
             botones.get(0).addActionListener(ev -> {
-                if(moneda.getValor() >= 200){ //REVISAR COMO CAMBIAR A LOS DATOS DE ENUMERACION
-                    comprador = new Comprador(moneda, 2, expendedor);
-                    System.out.println(comprador.queConsumiste());
-                    System.out.println(comprador.cuantoVuelto());
+                if (moneda.getValor() >= EnumeracionPrecios.values()[1 - 1].getPrecio()) {
+                    comprador = new Comprador(moneda, 1, expendedor);
+                    // System.out.println(comprador.queConsumiste());
+                    vuelto += comprador.cuantoVuelto();
+                    persona.setIcon(iconPersona1);
+                    moneda = null;
+                    dialog.dispose();
                 }
             });
 
-            botones.get(1).setText("Coca");
+            botones.get(1).setText("Sprite");
             botones.get(1).addActionListener(ev -> {
-                if(moneda.getValor() >= 1000) {
-                    System.out.println("Coca");
+                if (moneda.getValor() >= EnumeracionPrecios.values()[2 - 1].getPrecio()) {
+                    comprador = new Comprador(moneda, 2, expendedor);
+                    //System.out.println(comprador.queConsumiste());
+                    vuelto += comprador.cuantoVuelto();
+                    persona.setIcon(iconPersona1);
+                    moneda = null;
+                    dialog.dispose();
                 }
             });
 
             botones.get(2).setText("Fanta");
             botones.get(2).addActionListener(ev -> {
-                System.out.println("Fanta");
+                if (moneda.getValor() >= EnumeracionPrecios.values()[3 - 1].getPrecio()) {
+                    comprador = new Comprador(moneda, 3, expendedor);
+                    //System.out.println(comprador.queConsumiste());
+                    vuelto += comprador.cuantoVuelto();
+                    persona.setIcon(iconPersona1);
+                    moneda = null;
+                    dialog.dispose();
+                }
             });
 
             botones.get(3).setText("Super8");
             botones.get(3).addActionListener(ev -> {
-                System.out.println("Super8");
+                if (moneda.getValor() >= EnumeracionPrecios.values()[4 - 1].getPrecio()) {
+                    comprador = new Comprador(moneda, 4, expendedor);
+                    // System.out.println(comprador.queConsumiste());
+                    vuelto += comprador.cuantoVuelto();
+                    persona.setIcon(iconPersona1);
+                    moneda = null;
+                    dialog.dispose();
+                }
             });
 
             botones.get(4).setText("Snicker");
             botones.get(4).addActionListener(ev -> {
-                System.out.println("Snicker");
+                if (moneda.getValor() >= EnumeracionPrecios.values()[5 - 1].getPrecio()) {
+                    comprador = new Comprador(moneda, 5, expendedor);
+                    // System.out.println(comprador.queConsumiste());
+                    vuelto += comprador.cuantoVuelto();
+                    persona.setIcon(iconPersona1);
+                    moneda = null;
+                    dialog.dispose();
+                }
             });
 
             botones.get(5).setText("Cancelar");
@@ -130,30 +179,49 @@ class GUI {
         Exp.setBounds(350, 90, 300, 573);
         Exp.setLayout(null);
         panel.add(Exp);
-        buttonNum.setBounds(240, 200, 65, 150);
-        Exp.add(buttonNum);
+        botonNum.setBounds(235, 200, 65, 90);
+        botonVue.setBounds(230, 300, 70, 20);
+        Exp.add(botonNum);
+        Exp.add(botonVue);
 
-        JLabel persona = new JLabel();
-        persona.setOpaque(false);
-        persona.setIcon(iconPersona1);
-        persona.setBounds(250, 263, 150, 400);
-        persona.setVisible(true);
-        panel.add(persona);
 
         boton100.addActionListener(e -> {
-            persona.setIcon(iconPersona100);
-            moneda = new Moneda100();
+            if (sueldo >= 100) {
+                persona.setIcon(iconPersona100);
+                moneda = new Moneda100();
+                sueldo -= 100;
+                SueldoActual.setText("Sueldo: " + sueldo);
+            }
         });
 
         boton500.addActionListener(e -> {
-            persona.setIcon(iconPersona500);
-            moneda = new Moneda500();
+            if (sueldo >= 500) {
+                persona.setIcon(iconPersona500);
+                moneda = new Moneda500();
+                sueldo -= 500;
+                SueldoActual.setText("Sueldo: " + sueldo);
+            }
         });
         boton1000.addActionListener(e -> {
-            persona.setIcon(iconPersona1000);
-            moneda = new Moneda1000();
+            if (sueldo >= 1000) {
+                persona.setIcon(iconPersona1000);
+                moneda = new Moneda1000();
+                sueldo -= 1000;
+                SueldoActual.setText("Sueldo: " + sueldo);
+            }
         });
 
+        botonVue.addActionListener(e -> {
+            sueldo += vuelto;
+            vuelto = 0;
+            SueldoActual.setText("Sueldo: " + sueldo);
+
+        });
+
+
+        SueldoActual.setFont(new Font("Arial", Font.PLAIN, 20));
+        SueldoActual.setBounds(10, 0, 1000, 50);
+        panel.add(SueldoActual);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Test");

@@ -33,7 +33,6 @@ class Comprador{
         Moneda monedaVuelto;
         while((monedaVuelto = exp.getVuelto()) != null){
             this.vuelto += monedaVuelto.getValor();
-            System.out.println(vuelto);
         }
     }
 
